@@ -22,9 +22,12 @@ const pnpmCommand = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
 
 function runBuilder(args) {
   return new Promise((resolve, reject) => {
-    const child = spawn(pnpmCommand, ["exec", "electron-builder", ...args], {
-      stdio: "inherit",
-    });
+    // Node's CVE-2024-27980 guard throws EINVAL when a .cmd/.bat shim is
+    // spawned with an argv array and no shell, and Node 24 deprecates the
+    // array-plus-shell form (DEP0190). The builder arguments are fixed
+    // flags with no user input, so one command string is safe here.
+    const command = `${pnpmCommand} exec electron-builder ${args.join(" ")}`;
+    const child = spawn(command, { stdio: "inherit", shell: true });
 
     child.once("error", reject);
     child.once("exit", (code, signal) => {
