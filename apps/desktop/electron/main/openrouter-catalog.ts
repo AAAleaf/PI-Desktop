@@ -6,7 +6,7 @@
  * OpenRouter-configured endpoint additionally publishes per-model limits on
  * its own `/models` route; for an ID the snapshot does not know, those
  * endpoint-published numbers are strictly better than the generic 128k/8k
- * seed, so they fill the gap (ADR 0169). A models.dev record is never
+ * seed, so they fill the gap (ADR 0307). A models.dev record is never
  * overridden, no provider credential is ever attached (the route is public),
  * and a failed or missing answer degrades to the generic shape.
  */

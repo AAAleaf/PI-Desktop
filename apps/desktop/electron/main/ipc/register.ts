@@ -73,7 +73,7 @@ function wrap<T>(fn: () => Promise<T>): Promise<Result<T>> {
 export function registerIpcHandlers(dependencies: RegisterIpcDependencies) {
   // OpenRouter's public per-model limits, consulted only where the models.dev
   // snapshot is silent and only for providers configured against OpenRouter's
-  // own endpoint (ADR 0169). Constructed here to keep main/index.ts thin.
+  // own endpoint (ADR 0307). Constructed here to keep main/index.ts thin.
   const openRouterCatalog = new OpenRouterCatalog({});
   const {
     ipcMain,

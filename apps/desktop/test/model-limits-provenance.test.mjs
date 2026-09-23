@@ -33,7 +33,7 @@ test("unmatched models are annotated as generic, catalog matches and user pins a
     panes,
     /row\.binding\?\.contextWindowSource !== "user" &&\s*\n\s*row\.info\?\.catalogSource == null/,
   );
-  // Any catalog source — models.dev or an OpenRouter endpoint (ADR 0169) —
+  // Any catalog source — models.dev or an OpenRouter endpoint (ADR 0307) —
   // counts as matched, so the union must be tested against null, not one value.
   assert.doesNotMatch(panes, /catalogSource !== "models\.dev"/);
 });

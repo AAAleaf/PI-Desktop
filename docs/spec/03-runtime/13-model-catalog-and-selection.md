@@ -475,7 +475,7 @@ manual token entry. The enrichment lookup is:
    from `bindingForCustomModel` — except that a provider configured against
    OpenRouter's own endpoint fills that miss with the endpoint's published
    `context_length` / `max_completion_tokens` (credential-free, cached per
-   process window, never overriding a models.dev record; see ADR 0169), and
+   process window, never overriding a models.dev record; see ADR 0307), and
    only fields OpenRouter does not publish fall back to the generic seed.
 3. The lookup does not send API keys to models.dev. Runtime model resolution
    uses the same models.dev record and the selected pi-ai transport adapter.

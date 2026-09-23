@@ -218,7 +218,7 @@ export type ModelInfo = {
   /**
    * Metadata catalog that supplied this row, when it is a known model.
    * `openrouter` marks limits published by an OpenRouter-configured endpoint
-   * where the models.dev snapshot has no record (ADR 0169).
+   * where the models.dev snapshot has no record (ADR 0307).
    */
   catalogSource?: "models.dev" | "openrouter";
 };

@@ -1,4 +1,4 @@
-# ADR 0169: OpenRouter endpoint metadata fills models.dev gaps
+# ADR 0307: OpenRouter endpoint metadata fills models.dev gaps
 
 - Status: Accepted
 - Date: 2026-09-23

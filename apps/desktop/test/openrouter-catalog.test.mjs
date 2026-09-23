@@ -1,5 +1,5 @@
 /**
- * Contract tests for the OpenRouter endpoint metadata catalog (ADR 0169).
+ * Contract tests for the OpenRouter endpoint metadata catalog (ADR 0307).
  *
  * The route is public, so no credential handling is involved; what matters is
  * the parsing shape, the endpoint gate, and the fetch discipline: gap-filling

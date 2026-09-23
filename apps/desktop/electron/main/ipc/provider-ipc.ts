@@ -309,7 +309,7 @@ export function registerProviderIpc({
           modelId: model.modelId,
         });
         // OpenRouter's own route publishes per-model limits; they fill the
-        // gap only where the snapshot is silent (ADR 0169), never on top of
+        // gap only where the snapshot is silent (ADR 0307), never on top of
         // a models.dev record.
         const openRouterModel = modelsDevModel
           ? undefined
