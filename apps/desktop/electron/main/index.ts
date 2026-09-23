@@ -60,7 +60,6 @@ import {
   ModelsDevCatalog,
   modelConfigFromModelsDev,
 } from "./models-dev-catalog";
-import { OpenRouterCatalog } from "./openrouter-catalog";
 import { VendorOAuth } from "./oauth";
 import { AppUpdaterController } from "./updater";
 import { catalogs, resolveLocale } from "@pi-desktop/i18n";
@@ -607,13 +606,6 @@ const modelsDevCatalog = new ModelsDevCatalog({
     ? join(process.resourcesPath, "models.dev", "api.json")
     : join(app.getAppPath(), "resources", "models.dev", "api.json"),
 });
-
-/**
- * OpenRouter's public per-model limits, consulted only where the models.dev
- * snapshot is silent and only for providers configured against OpenRouter's
- * own endpoint (ADR 0169).
- */
-const openRouterCatalog = new OpenRouterCatalog({});
 
 const vendorOAuth = new VendorOAuth({
   call: <T,>(method: string, params?: unknown): Promise<T> => {

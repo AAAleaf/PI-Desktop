@@ -18,6 +18,7 @@ import { registerNotificationIpc } from "./notification-ipc";
 import { registerPluginIpc } from "./plugin-ipc";
 import { registerPluginUiIpc } from "./plugin-ui-ipc";
 import { registerProviderIpc } from "./provider-ipc";
+import { OpenRouterCatalog } from "../openrouter-catalog";
 import { registerPullsIpc } from "./pulls-ipc";
 import { registerScheduledIpc } from "./scheduled-ipc";
 import { registerSessionIpc } from "./session-ipc";
@@ -70,6 +71,10 @@ function wrap<T>(fn: () => Promise<T>): Promise<Result<T>> {
 }
 
 export function registerIpcHandlers(dependencies: RegisterIpcDependencies) {
+  // OpenRouter's public per-model limits, consulted only where the models.dev
+  // snapshot is silent and only for providers configured against OpenRouter's
+  // own endpoint (ADR 0169). Constructed here to keep main/index.ts thin.
+  const openRouterCatalog = new OpenRouterCatalog({});
   const {
     ipcMain,
     getMainWindow,
@@ -104,7 +109,6 @@ export function registerIpcHandlers(dependencies: RegisterIpcDependencies) {
     applyDeveloperMode,
     resolveEffectiveCommandShell,
     modelsDevCatalog,
-    openRouterCatalog,
     vendorOAuth,
     enrichProvider,
     listRuntimeProviders,
