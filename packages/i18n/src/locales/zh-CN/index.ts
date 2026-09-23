@@ -1157,8 +1157,6 @@ sklm: {
     themeSystem: "系统",
     themeLight: "浅色",
     themeDark: "深色",
-    themeNotebook: "纸感 Notebook",
-    themeSage: "纸感 Sage",
     themeFromPlugin: "由插件 {{plugin}} 提供。",
     themeSearchPlaceholder: "搜索主题…",
     permissionMode: "权限模式",

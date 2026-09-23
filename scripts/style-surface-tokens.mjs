@@ -51,10 +51,8 @@
 const CHROME_FAMILY =
   /\.(?:settings-nav|settings-search|settings-nav-item|settings-toggle-thumb|agent-capability-search-wrap|plugins-search|composer-shell|prose-chat|thinking-prose|code-block|code-block-head|code-block-lang|mermaid-block|mermaid-block-body|mermaid-block-head|mermaid-block-title|mermaid-block-error|mermaid-source|overlay|search-overlay|plugins-modal-backdrop|tool-row-content|send-btn|empty-hero|composer-placeholder|composer-input|mode-chip|composer-toolbar)(?![\w-])/;
 
-/** A selector that is a theme root: `:root`, `:root[data-theme="…"]`, or a
- * palette layer like `:root[data-theme="light"][data-palette="…"]` (ADR 0306)
- * — chains of theme/palette attribute gates. */
-const THEME_ROOT = /^:root(?:\[data-(?:theme|palette)=["'][^"']*["']\])*$/;
+/** A selector that is a theme root: `:root` or `:root[data-theme="…"]`. */
+const THEME_ROOT = /^:root(?:\[data-theme=["'][^"']*["']\])?$/;
 
 /** Colour literals: hex, colour functions, and the `white` / `black` keywords. */
 const LITERAL = /#[\da-f]{3,8}\b|\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch)\(|\b(?:white|black)\b/i;

@@ -1169,8 +1169,6 @@ sklm: {
     "themeDesc": "Suivre le système, clair ou sombre.",
     "themeSystem": "Système",
     "themeLight": "Clair",
-    "themeNotebook": "Papier Notebook",
-    "themeSage": "Papier Sage",
     "themeDark": "Foncé",
     "themeFromPlugin": "Fourni par le plugin {{plugin}}.",
     "themeSearchPlaceholder": "Thèmes de recherche…",

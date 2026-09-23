@@ -1180,8 +1180,6 @@ sklm: {
     themeDesc: "시스템, 밝은 테마 또는 어두운 테마를 따릅니다.",
     themeSystem: "시스템",
     themeLight: "밝게",
-    themeNotebook: "노트 용지",
-    themeSage: "세이지 용지",
     themeDark: "어둡게",
     themeFromPlugin: "{{plugin}} 플러그인이 제공합니다.",
     themeSearchPlaceholder: "테마 검색…",

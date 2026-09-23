@@ -1183,8 +1183,6 @@ sklm: {
     themeSystem: "System",
     themeLight: "Light",
     themeDark: "Dark",
-    themeNotebook: "Notebook Paper",
-    themeSage: "Sage Paper",
     themeFromPlugin: "Provided by the {{plugin}} plugin.",
     themeSearchPlaceholder: "Search themes…",
     permissionMode: "Permission mode",

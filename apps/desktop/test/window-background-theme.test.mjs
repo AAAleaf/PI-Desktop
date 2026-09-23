@@ -51,14 +51,11 @@ test("theme changes synchronize the native non-macOS window background", () => {
     appSource,
     /document\.documentElement\.dataset\.theme = resolvedTheme;/,
   );
-  assert.match(
-    appSource,
-    /setWindowBackgroundColor\(\s*resolvedTheme,\s*pluginTheme\?\.windowBackground\?\.\[resolvedTheme\]\s*\?\?\s*\(palette \? builtinWindowBackground\(palette\) : undefined\),?\s*\)/,
+  assert.ok(
+    appSource.includes(
+      "setWindowBackgroundColor(resolvedTheme, pluginTheme?.windowBackground?.[resolvedTheme])",
+    ),
   );
-  // A paper palette pins the native window plate through the same override
-  // channel a plugin theme uses (ADR 0306).
-  assert.match(appSource, /builtinWindowBackground\(palette\)/);
-  assert.match(appSource, /dataset\.palette = palette/);
 });
 
 test("the built-in window palette is declared once", async () => {

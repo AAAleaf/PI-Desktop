@@ -88,8 +88,7 @@ test("diagram chrome is bounded, theme-aware, and reduced-motion safe", () => {
   // pin #ffffff in a `:root[data-theme="light"]` override, which out-specified
   // the base rule and skipped the variable.
   assert.match(stylesSource, /\.mermaid-block-body\s*\{[^}]*background:\s*var\(--ds-mermaid-canvas\)/);
-  // Dark base + light + the two paper palettes (ADR 0306) each own the canvas.
-  assert.equal((stylesSource.match(/^\s*--ds-mermaid-canvas:/gm) ?? []).length, 4);
+  assert.equal((stylesSource.match(/^\s*--ds-mermaid-canvas:/gm) ?? []).length, 2);
   assert.doesNotMatch(stylesSource, /:root\[data-theme="light"\] \.mermaid-block-body/);
   assert.match(
     stylesSource,

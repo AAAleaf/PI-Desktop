@@ -1156,8 +1156,6 @@ sklm: {
     themeDesc: "跟隨系統、淺色或深色。",
     themeSystem: "系統",
     themeLight: "淺色",
-    themeNotebook: "紙感 Notebook",
-    themeSage: "紙感 Sage",
     themeDark: "深色",
     themeFromPlugin: "由外掛 {{plugin}} 提供。",
     themeSearchPlaceholder: "搜尋主題…",

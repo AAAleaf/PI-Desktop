@@ -63,11 +63,9 @@ test("native theme source maps preferences and only resets vibrancy on change", 
   const send = functionSource(mainSource, "sendToRenderer");
 
   assert.match(applyNative, /let next: "system" \| "light" \| "dark" = "system"/);
-  // Paper palettes (ADR 0306) resolve through the shared built-in table to
-  // their light base; the explicit light/dark path keeps its direct assignment.
   assert.match(
     applyNative,
-    /const builtinScheme = builtinThemeScheme\(preference\);\s*if \(builtinScheme\) \{\s*[^}]*next = builtinScheme;/,
+    /if \(isThemeColorScheme\(preference\)\) \{\s*next = preference;/,
   );
   assert.match(applyNative, /preference\.startsWith\("plugin:"\)/);
   assert.match(

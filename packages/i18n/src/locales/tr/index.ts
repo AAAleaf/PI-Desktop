@@ -1170,8 +1170,6 @@ sklm: {
     themeDesc: "Sistemi, açık veya koyu temayı izle.",
     themeSystem: "Sistem",
     themeLight: "Hafif",
-    themeNotebook: "Defter Kâğıdı",
-    themeSage: "Adaçayı Kâğıdı",
     themeDark: "Koyu",
     themeFromPlugin: "{{plugin}} eklentisi tarafından sağlanır.",
     themeSearchPlaceholder: "Tema ara…",

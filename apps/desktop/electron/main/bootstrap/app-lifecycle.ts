@@ -9,8 +9,6 @@ import {
   APP_NAME,
   IPC,
   isThemeColorScheme,
-  isBuiltinThemePreference,
-  builtinThemeScheme,
   traySessionTitle,
   migrateKeybindingOverrides,
   type AppMenuCommand,
@@ -484,10 +482,8 @@ export function createApplicationLifecycle({
   function applyNativeThemeSource(settings?: { theme?: unknown } | null) {
     const preference = settings?.theme;
     let next: "system" | "light" | "dark" = "system";
-    const builtinScheme = builtinThemeScheme(preference);
-    if (builtinScheme) {
-      // Paper palettes resolve to their light base for every native surface.
-      next = builtinScheme;
+    if (isThemeColorScheme(preference)) {
+      next = preference;
     } else if (typeof preference === "string" && preference.startsWith("plugin:")) {
       const pluginTheme = plugins.getThemes().find((theme) => theme.id === preference);
       if (pluginTheme?.base === "light" || pluginTheme?.base === "dark") {
@@ -512,15 +508,14 @@ export function createApplicationLifecycle({
    * partial settings object.
    */
   function applyAppThemePreference(preference: unknown) {
-    appearanceState.appThemePreference = isBuiltinThemePreference(preference)
+    appearanceState.appThemePreference = isThemeColorScheme(preference)
       ? preference
       : typeof preference === "string" && preference.startsWith("plugin:")
         ? preference
         : "system";
     applyNativeThemeSource({ theme: preference });
-    const builtinScheme = builtinThemeScheme(preference);
-    if (builtinScheme) {
-      appearanceState.pluginPanelTheme = builtinScheme;
+    if (isThemeColorScheme(preference)) {
+      appearanceState.pluginPanelTheme = preference;
     } else if (typeof preference === "string" && preference.startsWith("plugin:")) {
       const pluginTheme = plugins.getThemes().find((theme) => theme.id === preference);
       appearanceState.pluginPanelTheme =
