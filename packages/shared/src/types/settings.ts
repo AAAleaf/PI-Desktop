@@ -10,7 +10,13 @@ import type { PluginMarketSource } from "./plugins.js";
 import type { SpeechSettings } from "./speech.js";
 import type { ThinkingLevel } from "./models.js";
 
-export type ThemePreference = "system" | "light" | "dark" | `plugin:${string}`;
+export type ThemePreference =
+  | "system"
+  | "light"
+  | "dark"
+  | "notebook"
+  | "sage"
+  | `plugin:${string}`;
 
 /**
  * What closing the main window does on Windows/Linux. macOS keeps the native

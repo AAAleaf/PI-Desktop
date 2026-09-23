@@ -6988,3 +6988,14 @@ must keep splitting are covered by `markdown-blocks.test.mjs`.
   (a query parameter, a SigV4 signature). A key that is still not Latin-1 keeps
   failing at request time; refusing it would block a save this writer cannot
   judge.
+
+## 2026-09-23 - Notebook and Sage paper palettes as built-in themes (ADR 0306)
+
+- Settings theme picker gains two light-base retints after Dark: Notebook
+  (warm cream surfaces, teal accent) and Sage (cream paper, sage accent),
+  adapted from the MIT-licensed DeepSeek-Reasonix official themes.
+- Both resolve to the light base for every binary consumer (nativeTheme,
+  plugin panels, launcher, highlighting, CSS gates); the renderer publishes
+  them as `data-palette` and two token blocks in `tokens.css` retint the
+  light paint variables. The native window plate rides the existing
+  `windowSetBackgroundColor` color override (#fff9ed / #f7f7ef).

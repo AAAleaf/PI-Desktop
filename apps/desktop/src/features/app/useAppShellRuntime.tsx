@@ -2,6 +2,8 @@ import {
   type AppMenuCommand,
   isActiveInProject,
   isThemeColorScheme,
+  isPaletteThemeId,
+  builtinWindowBackground,
   KEYBOARD_SHORTCUTS,
   type KeyboardShortcutId,
   keybindingDisplayParts,
@@ -485,6 +487,10 @@ export function useAppShellRuntime() {
       : isThemeColorScheme(preference)
         ? preference
         : "system";
+    // Paper palettes ride on the light base: every binary consumer keeps
+    // seeing `light`, and `data-palette` retints the light token set (ADR
+    // 0306).
+    const palette = isPaletteThemeId(preference) ? preference : undefined;
 
     let style = document.getElementById(PLUGIN_THEME_STYLE_ID) as HTMLStyleElement | null;
     if (pluginTheme) {
@@ -503,20 +509,34 @@ export function useAppShellRuntime() {
 
     const mq = window.matchMedia("(prefers-color-scheme: light)");
     const apply = () => {
-      const resolvedTheme =
-        base === "system" ? (mq.matches ? "light" : "dark") : base;
+      const resolvedTheme = palette
+        ? "light"
+        : base === "system"
+          ? mq.matches
+            ? "light"
+            : "dark"
+          : base;
       document.documentElement.dataset.theme = resolvedTheme;
+      if (palette) {
+        document.documentElement.dataset.palette = palette;
+      } else {
+        delete document.documentElement.dataset.palette;
+      }
       // A contributed theme may name the native window background for this
       // palette. Deriving it here (rather than remembering an applied value) is
       // what restores the host default on a switch, a disable, or an uninstall:
       // the plugin theme is gone from the catalog, so there is nothing left to
       // pass and the host colour wins.
       void api
-        .setWindowBackgroundColor(resolvedTheme, pluginTheme?.windowBackground?.[resolvedTheme])
+        .setWindowBackgroundColor(
+          resolvedTheme,
+          pluginTheme?.windowBackground?.[resolvedTheme] ??
+            (palette ? builtinWindowBackground(palette) : undefined),
+        )
         .catch(() => undefined);
     };
     apply();
-    if (base !== "system") return;
+    if (base !== "system" || palette) return;
     const onChange = () => apply();
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);

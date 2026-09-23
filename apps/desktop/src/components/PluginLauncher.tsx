@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { isThemeColorScheme, type PluginSummary } from "@pi-desktop/shared";
+import { builtinThemeScheme, type PluginSummary } from "@pi-desktop/shared";
 import { api } from "../lib/api";
 import { searchLaunchablePlugins } from "../lib/plugin-launcher-search";
 import {
@@ -33,8 +33,11 @@ export function PluginLauncher() {
     let onSystemThemeChange: (() => void) | undefined;
     const applyTheme = (preference: string) => {
       if (disposed) return;
-      document.documentElement.dataset.theme = isThemeColorScheme(preference)
-        ? preference
+      // Paper palettes are light-base; the launcher overlay has no palette
+      // layer of its own, so the binary base is all it needs.
+      const builtin = builtinThemeScheme(preference);
+      document.documentElement.dataset.theme = builtin
+        ? builtin
         : window.matchMedia("(prefers-color-scheme: light)").matches
           ? "light"
           : "dark";
@@ -44,7 +47,7 @@ export function PluginLauncher() {
       .getSettings()
       .then((settings) => {
         applyTheme(settings.theme);
-        if (isThemeColorScheme(settings.theme)) return;
+        if (builtinThemeScheme(settings.theme)) return;
         mediaQuery = window.matchMedia("(prefers-color-scheme: light)");
         onSystemThemeChange = () => applyTheme(settings.theme);
         mediaQuery.addEventListener("change", onSystemThemeChange);
@@ -100,8 +103,9 @@ export function PluginLauncher() {
     void api
       .getSettings()
       .then((settings) => {
-        document.documentElement.dataset.theme = isThemeColorScheme(settings.theme)
-          ? settings.theme
+        const builtin = builtinThemeScheme(settings.theme);
+        document.documentElement.dataset.theme = builtin
+          ? builtin
           : window.matchMedia("(prefers-color-scheme: light)").matches
             ? "light"
             : "dark";

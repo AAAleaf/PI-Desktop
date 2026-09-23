@@ -49,7 +49,11 @@ export function ThemeRow({
           ? "settings.themeLight"
           : id === "dark"
             ? "settings.themeDark"
-            : "settings.themeSystem",
+            : id === "notebook"
+              ? "settings.themeNotebook"
+              : id === "sage"
+                ? "settings.themeSage"
+                : "settings.themeSystem",
       );
       return {
         id,
