@@ -21,7 +21,13 @@ try {
     entryPoints: [join(root, "scripts/e2e/provider-order.tsx")],
     outfile: join(temp, "renderer.js"), bundle: true, platform: "browser", format: "iife", jsx: "automatic",
     define: { "process.env.NODE_ENV": '"production"' },
-    loader: { ".woff": "file", ".woff2": "file", ".ttf": "file" },
+    loader: {
+      ".woff": "file",
+      ".woff2": "file",
+      ".ttf": "file",
+      ".png": "dataurl",
+      ".svg": "dataurl",
+    },
     alias: {
       "@pi-desktop/i18n": join(root, "packages/i18n/src/index.ts"),
       react: join(root, "apps/desktop/node_modules/react"),

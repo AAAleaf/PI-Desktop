@@ -11,6 +11,11 @@ import { OAUTH_AUTH_KIND, type VendorOAuth } from "../oauth";
 import { discoverProviderModels } from "../model-discovery";
 import { genericModelConfig, modelConfigWithBinding, mergeProviderHeaders } from "@pi-desktop/agent-runtime";
 import { modelConfigFromModelsDev, modelInfoFromModelsDev, type ModelsDevCatalog } from "../models-dev-catalog";
+import {
+  modelConfigFromOpenRouter,
+  modelInfoFromOpenRouter,
+  type OpenRouterCatalog,
+} from "../openrouter-catalog";
 import type { HostProcess } from "../host-process";
 import type { Logger } from "../logger";
 import type { IpcRegistrar } from "./types";
@@ -38,6 +43,7 @@ export type ProviderIpcDependencies = {
   registrar: IpcRegistrar;
   getHost: () => HostProcess | null;
   modelsDevCatalog: Pick<ModelsDevCatalog, "refresh" | "ensureLoaded" | "loadLocal" | "getStatus" | "findModel" | "modelsForProvider">;
+  openRouterCatalog: Pick<OpenRouterCatalog, "ensureReady" | "findModel">;
   vendorOAuth: VendorOAuth;
   logger: Pick<Logger, "app">;
   enrichProvider: (provider: RuntimeProvider, selectedModelId?: string) => any;
@@ -51,6 +57,7 @@ export function registerProviderIpc({
   registrar,
   getHost,
   modelsDevCatalog,
+  openRouterCatalog,
   vendorOAuth,
   logger,
   enrichProvider,
@@ -301,9 +308,17 @@ export function registerProviderIpc({
           baseUrl,
           modelId: model.modelId,
         });
+        // OpenRouter's own route publishes per-model limits; they fill the
+        // gap only where the snapshot is silent (ADR 0169), never on top of
+        // a models.dev record.
+        const openRouterModel = modelsDevModel
+          ? undefined
+          : openRouterCatalog.findModel(model.modelId);
         const catalogModelConfig = modelsDevModel
           ? modelConfigFromModelsDev(modelsDevModel, baseUrl)
-          : genericModelConfig(model.modelId, baseUrl);
+          : openRouterModel
+            ? modelConfigFromOpenRouter(openRouterModel, baseUrl)
+            : genericModelConfig(model.modelId, baseUrl);
         const storedModel = provider ? bindingForModel(provider, model.modelId) : undefined;
         const resolvedModel = resolveBindingContextWindow(catalogModelConfig, storedModel);
         const modelConfig = modelConfigWithBinding(
@@ -312,7 +327,13 @@ export function registerProviderIpc({
         );
         const info = modelsDevModel
           ? modelInfoFromModelsDev(modelsDevModel, provider?.id ?? "")
-          : {
+          : openRouterModel
+            ? modelInfoFromOpenRouter(
+                openRouterModel,
+                provider?.id ?? "",
+                model.source ?? ("discovered" as const),
+              )
+            : {
               modelId: model.modelId,
               displayName: model.displayName,
               providerId: provider?.id ?? "",
@@ -486,6 +507,14 @@ export function registerProviderIpc({
         every published model for the vendor, including ones this deployment
         does not host and ones the key is not entitled to.
       */
+      /*
+        When the endpoint is OpenRouter's own API, load its public per-model
+        metadata once per window so decorate can fill models.dev gaps with
+        endpoint-published limits. No key is attached to that request and any
+        failure keeps the generic seed; cache hydration above stays local by
+        design so its fast paint never waits on the network.
+      */
+      if (baseUrl) await openRouterCatalog.ensureReady(baseUrl);
       let discoveryError: string | undefined;
       if (baseUrl) {
         try {

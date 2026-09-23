@@ -7946,7 +7946,10 @@ must keep splitting are covered by `markdown-blocks.test.mjs`.
   sole metadata source. Provider keys are never included in the fixed
   models.dev request. Provider discovery remains available only to supply
   custom/account-specific IDs; those IDs receive the generic text-only,
-  non-reasoning defaults. pi-ai supplies the selected transport and OAuth/account
+  non-reasoning defaults, and their limits are visibly generic: the absent
+  ID's available row, chosen row and both Advanced limit fields carry the
+  generic-limits help note while a models.dev-matched row and a user-pinned
+  number stay unmarked. pi-ai supplies the selected transport and OAuth/account
   availability, not model metadata.
 - **Specs linked**: `03-runtime/11-provider-model-system.md` §6.2,
   `03-runtime/13-model-catalog-and-selection.md` §11.1–§12, ADR 0134

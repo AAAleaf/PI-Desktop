@@ -1169,6 +1169,8 @@ sklm: {
     "themeDesc": "System folgen, hell oder dunkel.",
     "themeSystem": "System",
     "themeLight": "Hell",
+    "themeNotebook": "Notebook-Papier",
+    "themeSage": "Sage-Papier",
     "themeDark": "Dunkel",
     "themeFromPlugin": "Wird vom {{plugin}}-Plugin bereitgestellt.",
     "themeSearchPlaceholder": "Themen durchsuchen…",
@@ -1354,6 +1356,8 @@ sklm: {
     "documentInput": "PDF",
     "thinkingManualOverrideHint": "Nicht im Katalog; aktivieren, wenn unterstützt.",
     "contextWindowCatalogHint": "Folgt models.dev; eine Änderung fixiert deinen Wert.",
+    "modelLimitsGenericHint":
+      "Nicht im models.dev-Snapshot enthalten – dies sind allgemeine konservative Standardwerte, keine veröffentlichten Werte. Hinterlege die tatsächliche Kontext- und Ausgabegröße unter „Erweitert“; dein Wert wird danach festgehalten.",
     "availableForSubagents": "Verfügbar für AI-Delegation",
     "availableForSubagentsHint": "Ermöglichen Sie AI, dieses Modell zu verwenden, wenn Aufgaben an Subagenten delegiert werden.",
     "nativeWebSearch": "Native Websuche",
@@ -1727,6 +1731,9 @@ sklm: {
       "error": "Dieser Speicherort konnte nicht gelesen werden",
       "back": "Zurück zu Dateien",
       "reveal": "Im Finder anzeigen",
+      "edit": "Bearbeiten",
+      "openInBrowser": "Im Browser öffnen",
+      "refresh": "Neu laden",
       "binary": "Binärdatei – Vorschau nicht verfügbar",
       "tooLarge": "Datei ist zu groß für die Vorschau"
     }

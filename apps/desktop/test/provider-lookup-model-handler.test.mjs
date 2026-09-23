@@ -96,6 +96,16 @@ function harness(realCatalog) {
     },
     "@pi-desktop/agent-runtime": {},
     "../models-dev-catalog": modelsDev,
+    // The lookup channel never decorates, so plain stubs satisfy the require
+    // map; the OpenRouter module itself is covered by openrouter-catalog.test.
+    "../openrouter-catalog": {
+      modelConfigFromOpenRouter: () => {
+        throw new Error("the lookup must not decorate from OpenRouter");
+      },
+      modelInfoFromOpenRouter: () => {
+        throw new Error("the lookup must not decorate from OpenRouter");
+      },
+    },
     "../host-process": {},
     "../logger": { app: () => {} },
     "./types": {},
@@ -109,6 +119,10 @@ function harness(realCatalog) {
       },
     }),
     modelsDevCatalog,
+    openRouterCatalog: {
+      ensureReady: async () => false,
+      findModel: () => undefined,
+    },
     vendorOAuth: {},
     logger: { app: () => {} },
     enrichProvider: (provider) => provider,

@@ -26,7 +26,7 @@ try {
     jsx: "automatic",
     define: { "process.env.NODE_ENV": '"production"' },
     // Exercise API-format interactions with real components/hooks, not visual layout.
-    loader: { ".css": "empty" },
+    loader: { ".css": "empty", ".png": "dataurl", ".svg": "dataurl" },
     alias: {
       "@pi-desktop/i18n": join(root, "packages/i18n/src/index.ts"),
       // The fixture lives outside the desktop package; use its React instance.

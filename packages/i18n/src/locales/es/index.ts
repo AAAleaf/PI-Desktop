@@ -1169,6 +1169,8 @@ sklm: {
     "themeDesc": "Seguir el sistema, claro u oscuro.",
     "themeSystem": "Sistema",
     "themeLight": "Claro",
+    "themeNotebook": "Papel Notebook",
+    "themeSage": "Papel Sage",
     "themeDark": "Oscuro",
     "themeFromPlugin": "Proporcionado por el complemento {{plugin}}.",
     "themeSearchPlaceholder": "Buscar temas…",
@@ -1354,6 +1356,8 @@ sklm: {
     "documentInput": "PDF",
     "thinkingManualOverrideHint": "No en el catálogo; habilitar si es compatible.",
     "contextWindowCatalogHint": "Sigue a models.dev; al editarlo se fija tu valor.",
+    "modelLimitsGenericHint":
+      "No está en la instantánea de models.dev: estos son valores genéricos conservadores, no los publicados. Indica el tamaño real de contexto y de salida en Avanzado; tu valor queda fijo.",
     "availableForSubagents": "Disponible para delegación de AI",
     "availableForSubagentsHint": "Permitir que AI use este modelo al delegar tareas a subagentes",
     "nativeWebSearch": "Búsqueda web nativa",
@@ -1727,6 +1731,9 @@ sklm: {
       "error": "No se pudo leer esta ubicación",
       "back": "Volver a los archivos",
       "reveal": "Mostrar en el Finder",
+      "edit": "Editar",
+      "openInBrowser": "Abrir en el navegador",
+      "refresh": "Actualizar",
       "binary": "Archivo binario: vista previa no disponible",
       "tooLarge": "El archivo es demasiado grande para obtener una vista previa"
     }

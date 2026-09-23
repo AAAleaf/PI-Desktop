@@ -36,6 +36,7 @@ import { api } from "../../lib/api";
 import { Button, Field, HelpIcon, Input, Tooltip, TooltipButton, cx } from "../ui";
 import { IconClose, IconGripVertical, IconHelp, IconPlus, IconRefresh, IconSearch } from "../icons";
 import { SettingsMenuSelect } from "./SettingsMenuSelect";
+import { VendorLogo } from "./VendorLogo";
 import { filterChosenModels, hidesAddedBinding } from "./model-chosen-filter";
 import {
   applyCustomModelLookup,
@@ -445,6 +446,10 @@ export function ModelSelectionPanes({
                 onChange={() => toggleModel(row)}
               />
               <span className="provider-models-row-copy selectable">
+                <VendorLogo
+                  modelId={row.id}
+                  providerVendorKey={lookupContext?.vendorKey}
+                />
                 <span className="provider-models-row-id font-mono">{row.id}</span>
                 {row.displayName && row.displayName !== row.id ? (
                   <span className="provider-models-row-name">{row.displayName}</span>
@@ -452,6 +457,10 @@ export function ModelSelectionPanes({
               </span>
               <span className="provider-models-row-limits">
                 {formatTokenCount(row.contextWindow)} · {formatTokenCount(row.maxTokens)}
+                {row.binding?.contextWindowSource !== "user" &&
+                row.info?.catalogSource == null ? (
+                  <HelpIcon label={t("settings.modelLimitsGenericHint")} />
+                ) : null}
               </span>
             </label>
           </li>
@@ -581,6 +590,12 @@ export function ModelSelectionPanes({
               const followsCatalog =
                 binding.contextWindowSource !== "user" &&
                 publishedContextWindow !== undefined;
+              // Unknown to catalogs and not pinned by the user: the row's
+              // numbers are the generic conservative seed, not a published
+              // window. Say so instead of letting 128k/8k read as authoritative.
+              const genericLimits =
+                binding.contextWindowSource !== "user" &&
+                info?.catalogSource == null;
               const publishedDocuments = info ? modelMatchesFilter(info, "pdf") : false;
               const expanded = expandedModelId === binding.id;
               const imageModelSelected = imageModelIds?.some((modelId) =>
@@ -610,6 +625,10 @@ export function ModelSelectionPanes({
                       <IconGripVertical size={14} aria-hidden />
                     </button>
                     <span className="provider-chosen-row-id font-mono selectable">
+                      <VendorLogo
+                        modelId={binding.id}
+                        providerVendorKey={lookupContext?.vendorKey}
+                      />
                       {binding.id}
                     </span>
                     {binding.alias?.trim() ? (
@@ -618,6 +637,9 @@ export function ModelSelectionPanes({
                     <span className="provider-chosen-row-limits">
                       {formatTokenCount(binding.contextWindow)} ·{" "}
                       {formatTokenCount(binding.maxTokens)}
+                      {genericLimits ? (
+                        <HelpIcon label={t("settings.modelLimitsGenericHint")} />
+                      ) : null}
                     </span>
                     <button
                       type="button"
@@ -683,6 +705,9 @@ export function ModelSelectionPanes({
                           {followsCatalog ? (
                             <HelpIcon label={t("settings.contextWindowCatalogHint")} />
                           ) : null}
+                          {genericLimits ? (
+                            <HelpIcon label={t("settings.modelLimitsGenericHint")} />
+                          ) : null}
                         </span>
                         {/* Preset ladder (#202): click writes the token count;
                             the input stays hand-editable off the ladder. */}
@@ -736,6 +761,9 @@ export function ModelSelectionPanes({
                       <label className="provider-chosen-field">
                         <span className="provider-chosen-field-label">
                           {t("settings.maxOutput")}
+                          {genericLimits ? (
+                            <HelpIcon label={t("settings.modelLimitsGenericHint")} />
+                          ) : null}
                         </span>
                         <div
                           className="provider-limit-presets"

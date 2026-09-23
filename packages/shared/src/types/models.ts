@@ -215,8 +215,12 @@ export type ModelInfo = {
   >;
   supportedThinkingLevels?: ThinkingLevel[];
   source: "bundled" | "discovered" | "user";
-  /** Metadata catalog that supplied this row, when it is a known model. */
-  catalogSource?: "models.dev";
+  /**
+   * Metadata catalog that supplied this row, when it is a known model.
+   * `openrouter` marks limits published by an OpenRouter-configured endpoint
+   * where the models.dev snapshot has no record (ADR 0169).
+   */
+  catalogSource?: "models.dev" | "openrouter";
 };
 
 /**

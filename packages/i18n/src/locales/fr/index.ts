@@ -1169,6 +1169,8 @@ sklm: {
     "themeDesc": "Suivre le système, clair ou sombre.",
     "themeSystem": "Système",
     "themeLight": "Clair",
+    "themeNotebook": "Papier Notebook",
+    "themeSage": "Papier Sage",
     "themeDark": "Foncé",
     "themeFromPlugin": "Fourni par le plugin {{plugin}}.",
     "themeSearchPlaceholder": "Thèmes de recherche…",
@@ -1354,6 +1356,8 @@ sklm: {
     "documentInput": "PDF",
     "thinkingManualOverrideHint": "Pas dans le catalogue ; activer si pris en charge.",
     "contextWindowCatalogHint": "Suit models.dev ; une modification fixe votre valeur.",
+    "modelLimitsGenericHint":
+      "Absent de l'instantané models.dev : il s'agit des valeurs génériques conservatrices, pas des valeurs publiées. Renseignez les tailles réelles dans Avancé ; votre valeur est ensuite conservée.",
     "availableForSubagents": "Disponible pour la délégation de l'IA",
     "availableForSubagentsHint": "Autoriser l'IA à utiliser ce modèle lors de la délégation de tâches à des sous-agents",
     "nativeWebSearch": "Recherche web native",
@@ -1727,6 +1731,9 @@ sklm: {
       "error": "Impossible de lire cet emplacement",
       "back": "Retour aux fichiers",
       "reveal": "Révéler dans le Finder",
+      "edit": "Modifier",
+      "openInBrowser": "Ouvrir dans le navigateur",
+      "refresh": "Actualiser",
       "binary": "Fichier binaire — aperçu indisponible",
       "tooLarge": "Le fichier est trop volumineux pour être prévisualisé"
     }

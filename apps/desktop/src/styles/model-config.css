@@ -792,6 +792,15 @@
   line-height: var(--leading-normal);
 }
 
+/* Vendor mark in front of a model id. Decorative: the id is the content. */
+.provider-vendor-logo {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-3xs);
+  vertical-align: -2px;
+}
+
 /* --------------------------------------------------------- chosen models */
 
 .provider-chosen {

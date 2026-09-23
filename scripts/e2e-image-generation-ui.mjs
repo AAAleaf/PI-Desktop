@@ -22,7 +22,13 @@ try {
     platform: "browser",
     format: "iife",
     jsx: "automatic",
-    loader: { ".woff": "file", ".woff2": "file", ".ttf": "file" },
+    loader: {
+      ".woff": "file",
+      ".woff2": "file",
+      ".ttf": "file",
+      ".png": "dataurl",
+      ".svg": "dataurl",
+    },
     define: { "process.env.NODE_ENV": '"production"' },
     alias: {
       "@pi-desktop/i18n": join(root, "packages/i18n/src/index.ts"),

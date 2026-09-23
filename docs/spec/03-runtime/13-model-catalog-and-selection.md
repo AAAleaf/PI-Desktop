@@ -65,6 +65,13 @@ entitled to it.
   a limit the service never published reads as an em dash. The settings rows,
   the Composer picker, the context inspector and the transcript all call this
   one implementation, while usage counters keep a real `0` instead of the dash.
+- Rows whose limits are the generic seed say so. When a model is absent from
+  the models.dev snapshot (`catalogSource`) and the binding was not pinned by
+  the user (`contextWindowSource`), its context/output numbers carry a help
+  note in the available list, the chosen list and both Advanced limit fields,
+  explaining that the numbers are generic conservative defaults and pointing
+  at Advanced for the real sizes. A catalog match and a user-pinned value stay
+  unmarked.
 - When an explicit binding enables `xhigh` or `max` without a catalog wire
   mapping, the runtime sends that canonical value through to the adapter rather
   than letting the adapter clamp it to `high`. Existing non-null catalog
@@ -297,7 +304,7 @@ type ModelCatalogItem = {
     "off" | "minimal" | "low" | "medium" | "high" | "xhigh" | "max"
   >
   /** Which known catalog supplied metadata for this row. */
-  catalogSource?: "models.dev"
+  catalogSource?: "models.dev" | "openrouter"
 }
 ```
 
@@ -465,7 +472,11 @@ manual token entry. The enrichment lookup is:
    such as `openai-codex` → `openai`; its exact model record supplies the fields.
 2. A provider endpoint may add custom/account-specific IDs, but cannot replace
    models.dev metadata. A free-form miss receives the fixed generic defaults
-   from `bindingForCustomModel`.
+   from `bindingForCustomModel` — except that a provider configured against
+   OpenRouter's own endpoint fills that miss with the endpoint's published
+   `context_length` / `max_completion_tokens` (credential-free, cached per
+   process window, never overriding a models.dev record; see ADR 0169), and
+   only fields OpenRouter does not publish fall back to the generic seed.
 3. The lookup does not send API keys to models.dev. Runtime model resolution
    uses the same models.dev record and the selected pi-ai transport adapter.
 
