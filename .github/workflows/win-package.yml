@@ -1,0 +1,75 @@
+# Manual Windows packaging
+#
+# Trigger: workflow_dispatch only. Builds the Windows x64 installers
+# (NSIS setup + portable ZIP + updater feeds) with the native Rust host-core
+# sidecar, exactly like the Windows lane of release.yml, but skips the
+# tag/version gate, the macOS/Linux lanes, and the GitHub Release publish —
+# artifacts land on the workflow run page for manual download.
+#
+# Use it to try a branch build on Windows without cutting a release tag.
+
+name: Win Package
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: win-package-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  package:
+    name: Package Windows x64
+    runs-on: windows-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          # Match the Node that Electron 43 bundles (24.18), same as release.yml.
+          node-version: 24
+          cache: pnpm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Prepare package inputs
+        run: |
+          set -euo pipefail
+          cargo build --release --locked -p host-core &
+          host_build_pid=$!
+          trap 'kill "$host_build_pid" 2>/dev/null || true' EXIT
+
+          pnpm install --frozen-lockfile
+          pnpm --filter '@pi-desktop/desktop^...' --fail-if-no-match build
+
+          wait "$host_build_pid"
+          trap - EXIT
+
+      - name: Package installers (dist:win)
+        # dist:win passes --publish never itself; nothing is published from a
+        # manual run — artifacts are uploaded below. The explicit architecture
+        # keeps the package and the native Rust sidecar aligned.
+        run: pnpm --filter @pi-desktop/desktop run dist:win -- --x64
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist-windows-x64
+          if-no-files-found: error
+          compression-level: 0
+          path: |
+            apps/desktop/release/*.exe
+            apps/desktop/release/*.zip
+            apps/desktop/release/*.blockmap
+            apps/desktop/release/latest*.yml
