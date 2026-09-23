@@ -1,5 +1,6 @@
 import { BrowserWindow, dialog, shell, type OpenDialogOptions } from "electron";
 import { dirname } from "node:path";
+import { pathToFileURL } from "node:url";
 import { homedir } from "node:os";
 import { existsSync, statSync } from "node:fs";
 import { realpath } from "node:fs/promises";
@@ -887,6 +888,25 @@ export function registerWorkspaceIpc({
     }
     const openError = await shell.openPath(stripWinLongPrefix(target));
     if (openError) throw new Error(openError);
+    return { ok: true };
+  });
+
+  // Same path gate as `fsOpen` (ADR 0109), but the file URL goes to the
+  // system browser instead of the default handler, so HTML and text previews
+  // render in a real tab rather than in whichever app owns the extension.
+  handle(IPC.invoke.fsOpenInBrowser, async (input: { path?: string } = {}) => {
+    const workspaceRoot = await optionalWorkspaceRoot();
+    const target = resolveOpenablePath(
+      String(input.path ?? ""),
+      workspaceRoot,
+      await fsExtraRoots(workspaceRoot),
+    );
+    if (!target) {
+      throw Object.assign(new Error("path is not openable"), {
+        errorCode: ErrorCodes.INVALID_ARGUMENT,
+      });
+    }
+    await shell.openExternal(pathToFileURL(stripWinLongPrefix(target)).href);
     return { ok: true };
   });
 

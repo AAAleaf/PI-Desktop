@@ -29,6 +29,9 @@ import {
   IconExternal,
   IconFileText,
   IconFolder,
+  IconGlobe,
+  IconPencil,
+  IconRefresh,
 } from "../icons";
 import { WorkTabEmpty } from "./WorkTabEmpty";
 
@@ -328,11 +331,38 @@ export function FilesTab() {
           <TooltipButton
             type="button"
             className="icon-btn icon-btn-square"
+            tooltip={t("panel.files.edit")}
+            ariaLabel={t("panel.files.edit")}
+            onClick={() => void api.fsOpen(selected)}
+          >
+            <IconPencil size={14} />
+          </TooltipButton>
+          <TooltipButton
+            type="button"
+            className="icon-btn icon-btn-square"
+            tooltip={t("panel.files.openInBrowser")}
+            ariaLabel={t("panel.files.openInBrowser")}
+            onClick={() => void api.fsOpenInBrowser(selected)}
+          >
+            <IconGlobe size={14} />
+          </TooltipButton>
+          <TooltipButton
+            type="button"
+            className="icon-btn icon-btn-square"
             tooltip={t("panel.files.reveal")}
             ariaLabel={t("panel.files.reveal")}
             onClick={() => void api.fsReveal(selected)}
           >
             <IconExternal size={14} />
+          </TooltipButton>
+          <TooltipButton
+            type="button"
+            className="icon-btn icon-btn-square"
+            tooltip={t("panel.files.refresh")}
+            ariaLabel={t("panel.files.refresh")}
+            onClick={() => void openFile(selected)}
+          >
+            <IconRefresh size={14} />
           </TooltipButton>
         </div>
         <div className="file-viewer-body">

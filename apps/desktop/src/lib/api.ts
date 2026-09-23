@@ -1319,6 +1319,8 @@ export const api = {
     }),
   fsReveal: (path: string) => invoke(IPC.invoke.fsReveal, { path }),
   fsOpen: (path: string) => invoke(IPC.invoke.fsOpen, { path }),
+  fsOpenInBrowser: (path: string) =>
+    invoke(IPC.invoke.fsOpenInBrowser, { path }),
   fsIndex: () => invoke<FsIndexResult>(IPC.invoke.fsIndex),
   /**
    * Complete a file reference from chat text to a real file (D320 follow-up).
